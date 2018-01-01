@@ -75,10 +75,8 @@ public class MineManager : MonoBehaviour {
 			}
 		}
 		
-		for(int col = 0; col < this.width; col++) {
-			for(int row = 0; row < this.height; row++) {
-				this.game_board[col,row].change_type(TileType.empty);
-			}
+		foreach(MineTile tile in this.game_board) {
+			tile.change_type(TileType.empty);
 		}
 	}
 	
@@ -92,6 +90,12 @@ public class MineManager : MonoBehaviour {
 					tiles_to_clear.Enqueue(neighbor);
 				}
 			}
+		}
+	}
+	
+	public void game_over(bool victory) {
+		foreach(MineTile tile in this.game_board) {
+			tile.lockdown(victory);
 		}
 	}
 }

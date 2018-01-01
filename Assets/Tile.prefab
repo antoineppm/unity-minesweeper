@@ -78,19 +78,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 836f4ac6e0aea4b2bbf162a808264353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite_hidden: {fileID: 21300000, guid: ac021104e3343449984c4b8444dddb9b, type: 3}
-  sprite_flagged: {fileID: 21300000, guid: c6725de3e65e142af90af07afdc2155d, type: 3}
+  sprite_hidden: {fileID: 21300000, guid: 868234c2e9d1f46c4848bc87e8670af6, type: 3}
+  sprite_flagged: {fileID: 21300000, guid: a3465c8ae1892406884de9b62155e83b, type: 3}
   sprite_revealed:
-  - {fileID: 21300000, guid: 12e3122a48195494f915fc71479e60f4, type: 3}
-  - {fileID: 21300000, guid: 4883b7c9fbb3d421cae2d93e1b890ef4, type: 3}
-  - {fileID: 21300000, guid: e56a75c41ad5a4d40980ff3dd424ce52, type: 3}
-  - {fileID: 21300000, guid: 5cd039f292a164124a804d1b4ad3ae68, type: 3}
-  - {fileID: 21300000, guid: 63c3fdd56a4f846d587a04a05641f464, type: 3}
-  - {fileID: 21300000, guid: 4b1d08ccf0d024094a2a714871f1f0bf, type: 3}
-  - {fileID: 21300000, guid: 3385c60aa54f446d3b3d13224a4a510b, type: 3}
-  - {fileID: 21300000, guid: d49c78dee9baa4f28a7b8f2a4fc8c49b, type: 3}
-  - {fileID: 21300000, guid: 5090278489880414685976b461a9a257, type: 3}
-  sprite_exploded: {fileID: 21300000, guid: 3d6fdf35306414c3fb5781e0da1afbdc, type: 3}
+  - {fileID: 21300000, guid: 0441645fc390c43fcb535ae5f74e3389, type: 3}
+  - {fileID: 21300000, guid: 184c6d7a761014fe09ebddc4fe71683c, type: 3}
+  - {fileID: 21300000, guid: f3a787b4356514be1b11c30caa00c801, type: 3}
+  - {fileID: 21300000, guid: 24f5ff25e2d6d40dd9ae251265e600ea, type: 3}
+  - {fileID: 21300000, guid: 4e198a175d06d47f296f67052db074ff, type: 3}
+  - {fileID: 21300000, guid: 986b1efcb70644895b47eec2d52ed082, type: 3}
+  - {fileID: 21300000, guid: 689f36d9a7adc4c5c88679a9dff2080f, type: 3}
+  - {fileID: 21300000, guid: cce435e8dad8b4dffafe531e1fc25b81, type: 3}
+  - {fileID: 21300000, guid: c7a34eaba48a5416abd6cd16287c7e8e, type: 3}
+  sprite_exploded: {fileID: 21300000, guid: 5fbdcf270711b439b81fb79fb411cd72, type: 3}
+  sprite_mined: {fileID: 21300000, guid: 4d08ff3c0db504982b3345a339658d71, type: 3}
+  sprite_wrongflag: {fileID: 21300000, guid: f94097a9ed4674fe5b393e36497c927d, type: 3}
 --- !u!212 &212310620313464050
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -133,5 +135,5 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0

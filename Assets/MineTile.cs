@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum TileType {init, empty, mined}
-public enum TileState {hidden, revealed, flagged}
+public enum TileState {hidden, revealed, flagged, locked}
 
 public class MineTile : MonoBehaviour {
 	
@@ -11,6 +11,10 @@ public class MineTile : MonoBehaviour {
 	[SerializeField] private Sprite sprite_flagged;
 	[SerializeField] private Sprite[] sprite_revealed;
 	[SerializeField] private Sprite sprite_exploded;
+	[SerializeField] private Sprite sprite_mined;
+	[SerializeField] private Sprite sprite_wrongflag;
+	
+	private static int empty_hidden_nb = 0;
 	
 	private MineManager parent;
 	
@@ -23,7 +27,7 @@ public class MineTile : MonoBehaviour {
 	void Start () {
 		this.type = TileType.init;
 		this.state = TileState.hidden;
-		gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_hidden;
+		this.change_sprite(this.sprite_hidden);
 	}
 	
 	public void initialize(MineManager parent, int col, int row) {
@@ -49,10 +53,10 @@ public class MineTile : MonoBehaviour {
 				case TileType.mined:
 					if(this.state == TileState.hidden) {
 						this.state = TileState.flagged;
-						gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_flagged;
+						this.change_sprite(this.sprite_flagged);
 					} else if(this.state == TileState.flagged) {
 						this.state = TileState.hidden;
-						gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_hidden;
+						this.change_sprite(this.sprite_hidden);
 					}
 					break;
 				default:
@@ -64,6 +68,9 @@ public class MineTile : MonoBehaviour {
 	public bool change_type(TileType type) {
 		if(this.type == TileType.init) {
 			this.type = type;
+			if(type == TileType.empty) {
+				empty_hidden_nb++;
+			}
 			return true;
 		} else {
 			return false;
@@ -84,15 +91,37 @@ public class MineTile : MonoBehaviour {
 						neighbor_nb++;
 					}
 				}
-				gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_revealed[neighbor_nb];
+				this.change_sprite(this.sprite_revealed[neighbor_nb]);
+				empty_hidden_nb--;
+				if(empty_hidden_nb == 0) {
+					parent.game_over(true);
+				}
 				return (neighbor_nb == 0);
 			case TileType.mined:
 				this.state = TileState.revealed;
-				gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_exploded;
+				this.change_sprite(this.sprite_exploded);
+				parent.game_over(false);
 				break;
 			default:
 				break;
 		}
 		return false;
+	}
+	
+	public void lockdown(bool victory) {
+		if(victory && this.type == TileType.mined) {
+			this.change_sprite(this.sprite_flagged);
+		}
+		if(!victory && this.type == TileType.mined && this.state == TileState.hidden) {
+			this.change_sprite(this.sprite_mined);
+		}
+		if(!victory && this.type == TileType.empty && this.state == TileState.flagged) {
+			this.change_sprite(this.sprite_wrongflag);
+		}
+		this.state = TileState.locked;
+	}
+	
+	private void change_sprite(Sprite sprite) {
+		gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
 	}
 }
