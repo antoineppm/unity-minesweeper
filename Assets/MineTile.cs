@@ -5,14 +5,14 @@ using UnityEngine;
 public enum TileType {init, empty, mined}
 public enum TileState {hidden, revealed, flagged}
 
-public class Tile : MonoBehaviour {
+public class MineTile : MonoBehaviour {
 	
 	[SerializeField] private Sprite sprite_hidden;
 	[SerializeField] private Sprite sprite_flagged;
 	[SerializeField] private Sprite[] sprite_revealed;
 	[SerializeField] private Sprite sprite_exploded;
 	
-	private GameBoard parent;
+	private MineManager parent;
 	
 	public int col {get; private set;}
 	public int row {get; private set;}
@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour {
 		gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_hidden;
 	}
 	
-	public void initialize(GameBoard parent, int col, int row) {
+	public void initialize(MineManager parent, int col, int row) {
 		this.parent = parent;
 		this.col = col;
 		this.row = row;
@@ -79,7 +79,7 @@ public class Tile : MonoBehaviour {
 				this.state = TileState.revealed;
 				// count neighbors
 				int neighbor_nb = 0;
-				foreach(Tile tile in parent.get_neighbors(this)) {
+				foreach(MineTile tile in parent.get_neighbors(this)) {
 					if(tile.type == TileType.mined) {
 						neighbor_nb++;
 					}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameBoard : MonoBehaviour {
+public class MineManager : MonoBehaviour {
 	
 	public Transform tile_prefab;
 	
@@ -10,7 +10,7 @@ public class GameBoard : MonoBehaviour {
 	private int height;
 	private int mine_nb;
 	
-	private Tile[,] game_board;
+	private MineTile[,] game_board;
 	
 	void Start () {
 		this.width = 10;
@@ -29,13 +29,13 @@ public class GameBoard : MonoBehaviour {
 		float offset_y = -6.5f;
 		float size = 1f;
 		
-		this.game_board = new Tile[width, height];
+		this.game_board = new MineTile[width, height];
 		
 		for(int col = 0; col < this.width; col++) {
 			for(int row = 0; row < this.height; row++) {
 				float x = offset_x + size*col;
 				float y = offset_y + size*row;
-				Tile new_tile = Instantiate(this.tile_prefab, new Vector3(x, y, 0), Quaternion.identity).GetComponent<Tile>();
+				MineTile new_tile = Instantiate(this.tile_prefab, new Vector3(x, y, 0), Quaternion.identity).GetComponent<MineTile>();
 				new_tile.initialize(this, col, row);
 				this.game_board[col,row] = new_tile;
 			}
@@ -46,7 +46,7 @@ public class GameBoard : MonoBehaviour {
 		return col >= 0 && col < this.width && row >= 0 && row < this.height;
 	}
 	
-	public IEnumerable<Tile> get_neighbors(Tile origin) {
+	public IEnumerable<MineTile> get_neighbors(MineTile origin) {
 		for(int i = -1; i <= 1; i++) {
 			for(int j = -1; j <= 1; j++) {
 				if(i != 0 || j != 0) {
@@ -60,9 +60,9 @@ public class GameBoard : MonoBehaviour {
 		}
 	}
 	
-	public void place_mines(Tile origin) {
+	public void place_mines(MineTile origin) {
 		origin.change_type(TileType.empty);
-		foreach(Tile tile in this.get_neighbors(origin)) {
+		foreach(MineTile tile in this.get_neighbors(origin)) {
 			tile.change_type(TileType.empty);
 		}
 		
@@ -82,12 +82,12 @@ public class GameBoard : MonoBehaviour {
 		}
 	}
 	
-	public void clear_neighbors(Tile origin) {
-		Queue<Tile> tiles_to_clear = new Queue<Tile>();
+	public void clear_neighbors(MineTile origin) {
+		Queue<MineTile> tiles_to_clear = new Queue<MineTile>();
 		tiles_to_clear.Enqueue(origin);
 		while(tiles_to_clear.Count > 0) {
-			Tile tile = tiles_to_clear.Dequeue();
-			foreach(Tile neighbor in this.get_neighbors(tile)) {
+			MineTile tile = tiles_to_clear.Dequeue();
+			foreach(MineTile neighbor in this.get_neighbors(tile)) {
 				if(neighbor.reveal()) {
 					tiles_to_clear.Enqueue(neighbor);
 				}

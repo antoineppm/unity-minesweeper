@@ -51,8 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameBoard.cs" />
-     <Compile Include="Assets\Tile.cs" />
+     <Compile Include="Assets\MineManager.cs" />
+     <Compile Include="Assets\MineTile.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/home/antoine/opt/unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
