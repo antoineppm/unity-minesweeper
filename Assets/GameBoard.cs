@@ -81,4 +81,17 @@ public class GameBoard : MonoBehaviour {
 			}
 		}
 	}
+	
+	public void clear_neighbors(Tile origin) {
+		Queue<Tile> tiles_to_clear = new Queue<Tile>();
+		tiles_to_clear.Enqueue(origin);
+		while(tiles_to_clear.Count > 0) {
+			Tile tile = tiles_to_clear.Dequeue();
+			foreach(Tile neighbor in this.get_neighbors(tile)) {
+				if(neighbor.reveal()) {
+					tiles_to_clear.Enqueue(neighbor);
+				}
+			}
+		}
+	}
 }

@@ -31,25 +31,12 @@ public class Tile : MonoBehaviour {
 		this.row = row;
 	}
 	
-	void Update () {
-		
-	}
-	
 	void OnMouseDown() {
-		switch(this.type) {
-			case TileType.init:
-				this.parent.place_mines(this);
-				break;
-			case TileType.empty:
-				this.state = TileState.revealed;
-				gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_revealed;
-				break;
-			case TileType.mined:
-				this.state = TileState.revealed;
-				gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_exploded;
-				break;
-			default:
-				break;
+		if(this.type == TileType.init) {
+			this.parent.place_mines(this);
+		}
+		if(this.reveal()) {
+			this.parent.clear_neighbors(this);
 		}
 	}
 	
@@ -60,5 +47,31 @@ public class Tile : MonoBehaviour {
 		} else {
 			return false;
 		}
+	}
+	
+	public bool reveal() {
+		if(this.state != TileState.hidden) {
+			return false;
+		}
+		switch(this.type) {
+			case TileType.empty:
+				this.state = TileState.revealed;
+				// count neighbors
+				int neighbor_nb = 0;
+				foreach(Tile tile in parent.get_neighbors(this)) {
+					if(tile.type == TileType.mined) {
+						neighbor_nb++;
+					}
+				}
+				gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_revealed;
+				return (neighbor_nb == 0);
+			case TileType.mined:
+				this.state = TileState.revealed;
+				gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_exploded;
+				break;
+			default:
+				break;
+		}
+		return false;
 	}
 }
