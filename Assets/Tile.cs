@@ -8,7 +8,7 @@ public enum TileState {hidden, revealed}
 public class Tile : MonoBehaviour {
 	
 	[SerializeField] private Sprite sprite_hidden;
-	[SerializeField] private Sprite sprite_revealed;
+	[SerializeField] private Sprite[] sprite_revealed;
 	[SerializeField] private Sprite sprite_exploded;
 	
 	private GameBoard parent;
@@ -63,7 +63,7 @@ public class Tile : MonoBehaviour {
 						neighbor_nb++;
 					}
 				}
-				gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_revealed;
+				gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_revealed[neighbor_nb];
 				return (neighbor_nb == 0);
 			case TileType.mined:
 				this.state = TileState.revealed;
