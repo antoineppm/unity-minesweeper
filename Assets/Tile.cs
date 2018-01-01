@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum TileType {init, empty, mined}
-public enum TileState {hidden, revealed}
+public enum TileState {hidden, revealed, flagged}
 
 public class Tile : MonoBehaviour {
 	
 	[SerializeField] private Sprite sprite_hidden;
+	[SerializeField] private Sprite sprite_flagged;
 	[SerializeField] private Sprite[] sprite_revealed;
 	[SerializeField] private Sprite sprite_exploded;
 	
@@ -37,6 +38,26 @@ public class Tile : MonoBehaviour {
 		}
 		if(this.reveal()) {
 			this.parent.clear_neighbors(this);
+		}
+	}
+	
+	void OnMouseOver() {
+		// kludge because there's no right click event for some reason
+		if(Input.GetMouseButtonDown(1)) {
+			switch(this.type) {
+				case TileType.empty:
+				case TileType.mined:
+					if(this.state == TileState.hidden) {
+						this.state = TileState.flagged;
+						gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_flagged;
+					} else if(this.state == TileState.flagged) {
+						this.state = TileState.hidden;
+						gameObject.GetComponent<SpriteRenderer>().sprite = this.sprite_hidden;
+					}
+					break;
+				default:
+					break;
+			}
 		}
 	}
 	
